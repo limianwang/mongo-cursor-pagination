@@ -40,6 +40,7 @@ module.exports = async function(collection, params) {
   const findMethod = collection.findAsCursor ? 'findAsCursor': 'find';
 
   const results = await collection[findMethod]({ $and: [cursorQuery, params.query] }, params.fields)
+    .collation({ strength: 1, locale: 'en' })
     .sort($sort)
     .limit(params.limit + 1) // Query one more element to see if there's another page.
     .toArray();
